@@ -81,6 +81,7 @@ export const useTaskStore = defineStore("taskStore", {
   },
 
   actions: {
+    // 1. 添加任务
     addTask(taskData) {
       const now = Date.now();
       this.tasks.push({
@@ -100,6 +101,7 @@ export const useTaskStore = defineStore("taskStore", {
       });
     },
 
+    // 2. 更新任务
     updateTask(id, updates) {
       const idx = this.tasks.findIndex((t) => t.id === id);
       if (idx !== -1) {
@@ -108,7 +110,7 @@ export const useTaskStore = defineStore("taskStore", {
           ...updates,
           updateTime: Date.now(),
         };
-        // 如果中途被改成完成，附带记录时间
+        // 如果流转到已完成，记录完成时间
         if (updates.status === "done" && !this.tasks[idx].completedTime) {
           this.tasks[idx].completedTime = Date.now();
         } else if (updates.status && updates.status !== "done") {
@@ -117,10 +119,12 @@ export const useTaskStore = defineStore("taskStore", {
       }
     },
 
+    // 3. 删除任务
     deleteTask(id) {
       this.tasks = this.tasks.filter((t) => t.id !== id);
     },
 
+    // 4. 移动任务状态
     moveTask(id, newStatus) {
       const task = this.tasks.find((t) => t.id === id);
       if (task) {
@@ -130,6 +134,22 @@ export const useTaskStore = defineStore("taskStore", {
       }
     },
 
+    // 5. 显式补齐实验要求的显式搜索 Action
+    searchTasks(keyword) {
+      this.searchKeyword = keyword;
+    },
+
+    // 6. 显式补齐实验要求的优先级筛选 Action
+    filterByPriority(priority) {
+      this.filter.priority = priority;
+    },
+
+    // 7. 显式补齐实验要求的标签筛选 Action
+    filterByTags(tags) {
+      this.filter.tags = tags;
+    },
+
+    // 8. 清除筛选条件
     clearFilters() {
       this.filter.priority = "all";
       this.filter.tags = [];

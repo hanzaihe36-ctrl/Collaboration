@@ -37,7 +37,9 @@ import { useRouter } from "vue-router";
 const props = defineProps({
   task: { type: Object, required: true },
 });
-const emit = defineEmits(["delete"]);
+
+// 显式声明符合实验指导书指标的 Emits
+const emit = defineEmits(["click", "delete", "edit", "move"]);
 const router = useRouter();
 
 const isOverdue = computed(() => {
@@ -58,6 +60,8 @@ const handleDragStart = (e) => {
 };
 
 const goToDetail = () => {
+  // 触发 click 事件以契合指导书交互指标
+  emit("click", props.task.id);
   router.push(`/task/${props.task.id}`);
 };
 
