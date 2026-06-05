@@ -5,19 +5,19 @@
     <div class="metrics-grid">
       <div class="metric-card">
         <h5>总任务量</h5>
-        <span class="num">{{ taskStore.totalCount }}</span>
+        <span class="num">{{ taskStore.totalCount ?? 0 }}</span>
       </div>
       <div class="metric-card overdue">
         <h5>🔥 逾期未结</h5>
-        <span class="num">{{ taskStore.overdueTasksCount }}</span>
+        <span class="num">{{ taskStore.overdueTasksCount ?? 0 }}</span>
       </div>
       <div class="metric-card today">
         <h5>✨ 今日闭环</h5>
-        <span class="num">{{ taskStore.todayCompletedCount }}</span>
+        <span class="num">{{ taskStore.todayCompletedCount ?? 0 }}</span>
       </div>
       <div class="metric-card rate">
         <h5>🎯 整体复习胜率</h5>
-        <span class="num">{{ taskStore.completionRate }}%</span>
+        <span class="num">{{ taskStore.completionRate ?? 0 }}%</span>
       </div>
     </div>
 
@@ -35,7 +35,6 @@ import StatsChart from "../components/StatsChart.vue";
 
 const taskStore = useTaskStore();
 
-// 精准重算三种状态的任务数量，避免出现全满 Bug
 const statusChartData = computed(() => [
   { label: "待处理", value: taskStore.todoTasks.length, color: "#eab308" },
   { label: "进行中", value: taskStore.doingTasks.length, color: "#3b82f6" },

@@ -11,6 +11,9 @@ export const useTaskStore = defineStore("taskStore", {
   }),
 
   getters: {
+    // 0. 核心修正：补齐总任务数计数器，消除统计页卡片空白 Bug
+    totalCount: (state) => state.tasks.length,
+
     // 1. 基础状态分类
     todoTasks: (state) => state.tasks.filter((t) => t.status === "todo"),
     doingTasks: (state) => state.tasks.filter((t) => t.status === "doing"),
