@@ -35,18 +35,19 @@ import StatsChart from "../components/StatsChart.vue";
 
 const taskStore = useTaskStore();
 
+// 精准重算三种状态的任务数量，避免出现全满 Bug
 const statusChartData = computed(() => [
-  { label: "待处理", value: taskStore.todoCount, color: "#eab308" },
-  { label: "进行中", value: taskStore.doingCount, color: "#3b82f6" },
-  { label: "已完成", value: taskStore.doneCount, color: "#10b981" },
+  { label: "待处理", value: taskStore.todoTasks.length, color: "#eab308" },
+  { label: "进行中", value: taskStore.doingTasks.length, color: "#3b82f6" },
+  { label: "已完成", value: taskStore.doneTasks.length, color: "#10b981" },
 ]);
 
 const priorityChartData = computed(() => {
   const pData = taskStore.tasksByPriority;
   return [
-    { label: "🔥 高级", value: pData.high, color: "#ef4444" },
-    { label: "⚡ 中级", value: pData.medium, color: "#f59e0b" },
-    { label: "☕ 低级", value: pData.low, color: "#10b981" },
+    { label: "高级", value: pData.high, color: "#ef4444" },
+    { label: "中级", value: pData.medium, color: "#f59e0b" },
+    { label: "低级", value: pData.low, color: "#10b981" },
   ];
 });
 </script>
@@ -67,6 +68,7 @@ const priorityChartData = computed(() => {
   padding: 16px;
   border-radius: 10px;
   border: 1px solid var(--border);
+  text-align: center;
 }
 .metric-card h5 {
   margin: 0 0 8px;

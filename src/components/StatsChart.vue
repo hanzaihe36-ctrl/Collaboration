@@ -9,7 +9,7 @@
             class="row-fill"
             :style="{
               width:
-                item.value === 0 ? '0%' : (item.value / maxVal) * 100 + '%',
+                totalSum === 0 ? '0%' : (item.value / totalSum) * 100 + '%',
               backgroundColor: item.color,
             }"
           ></div>
@@ -28,10 +28,9 @@ const props = defineProps({
   data: Array, // 格式: [{ label: '待处理', value: 5, color: '#ff0000' }]
 });
 
-const maxVal = computed(() => {
-  const values = props.data.map((d) => d.value);
-  const max = Math.max(...values);
-  return max === 0 ? 1 : max;
+// 计算当前图表所有项的数量总和，作为百分比基数
+const totalSum = computed(() => {
+  return props.data.reduce((sum, item) => sum + item.value, 0);
 });
 </script>
 
@@ -78,10 +77,11 @@ const maxVal = computed(() => {
   transition: width 0.4s ease;
 }
 .row-val {
-  width: 40px;
+  width: 50px;
   font-size: 13px;
   font-weight: bold;
   text-align: right;
   color: var(--text-h);
+  white-space: nowrap;
 }
 </style>
